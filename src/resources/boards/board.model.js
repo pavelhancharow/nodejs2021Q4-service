@@ -6,11 +6,10 @@ class Board {
     this.id = id;
     this.title = title;
 
-    this.columns = this.setColumns(columns);
+    this.columns = Board.setColumns(columns);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  setColumns(array) {
+  static setColumns(array) {
     return [...array].map((cl) => new Column(cl));
   }
 }
