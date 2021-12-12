@@ -1,12 +1,15 @@
-const {
+import { FastifyInstance, RegisterOptions } from 'fastify';
+import {
   getUsersOpts,
   getUserOpts,
   postUserOpts,
   putUserOpts,
   deleteUserOpts,
-} = require('./user.schema');
+} from './user.schema';
 
-async function userRoutes(fastify, options, done) {
+type Done = () => void;
+
+export default async function userRoutes(fastify: FastifyInstance, _: RegisterOptions, done: Done): Promise<void> {
   fastify.get('/users', getUsersOpts);
   fastify.get('/users/:userId', getUserOpts);
   fastify.post('/users', postUserOpts);
@@ -15,5 +18,3 @@ async function userRoutes(fastify, options, done) {
 
   done();
 }
-
-module.exports = userRoutes;

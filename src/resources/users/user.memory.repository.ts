@@ -1,50 +1,51 @@
-const { User } = require('./user.model');
-const { deleteUser } = require('../tasks/task.memory.repository');
+import { User, IUser } from './user.model';
+// const { deleteUser } = require('../tasks/task.memory.repository');
 
-const users = [];
+const users: IUser[] = [];
 
-const getAll = async () => users.map(User.toResponse);
+const getAll = async (): Promise<IUser[]> => users.map(User.toResponse);
 
-const getById = async (id) => {
-  const user = await users.find((u) => u.id === id);
+const getById = async (userId: string): Promise<IUser | boolean> => {
+  const user = users.find((u) => u.id === userId);
 
   if (!user) return false;
 
   return User.toResponse(user);
 };
 
-const create = async (body) => {
+const create = async (body: IUser): Promise<IUser> => {
   const user = new User(body);
+
   users.push(user);
-  return user;
+
+  return User.toResponse(user);
 };
 
-const update = async (params, body) => {
-  let idx = null;
+const update = async (userId: string, body: IUser): Promise<IUser> => {
+  let idx = NaN;
 
   for (let i = 0; i < users.length; i++) {
-    if (users[i].id === params.userId) {
+    if (users[i].id === userId) {
       idx = i;
       users[i] = { ...users[i], ...body };
     }
   }
 
-  if (!users[idx]) return false;
-
-  return users[idx];
+  return User.toResponse(users[idx]);
 };
 
-const remove = async (id) => {
-  const idx = users.findIndex((u) => u.id === id);
+const remove = async (userId: string): Promise<IUser[] | boolean> => {
+  const idx = users.findIndex((u) => u.id === userId);
 
   if (idx === -1) return false;
 
   users.splice(idx, 1);
-  deleteUser(id);
+  // deleteUser(id);
+
   return users;
 };
 
-module.exports = {
+export = {
   getAll,
   getById,
   create,

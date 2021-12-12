@@ -1,47 +1,43 @@
-const usersRepo = require('./user.memory.repository');
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { IUser } from './user.model';
+import usersRepo from './user.memory.repository';
 
-const getAll = async (req, reply) => {
+type CustomRequest = FastifyRequest<{
+  Params: { userId: string };
+  Body: IUser
+}>
+
+export const getAll = async (_: FastifyRequest, reply: FastifyReply): Promise<void> => {
   const users = await usersRepo.getAll();
-  reply.send(users);
+  reply.code(200).send(users);
 };
 
-const getById = async (req, reply) => {
-  const { userId } = await req.params;
-  const user = await usersRepo.getById(userId);
+export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const user = await usersRepo.getById(req.params.userId);
 
   if (!user) reply.code(404).send({ message: 'User not found' });
 
-  reply.send(user);
+  reply.code(200).send(user);
 };
 
-const create = async (req, reply) => {
-  const { body } = await req;
+export const create = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const user = await usersRepo.create(req.body);
 
-  const user = await usersRepo.create(body);
   reply.code(201).send(user);
 };
 
-const update = async (req, reply) => {
-  const { params, body } = await req;
-  const user = await usersRepo.update(params, body);
+export const update = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const user = await usersRepo.update(req.params.userId, req.body);
 
   if (!user) reply.code(404).send({ message: 'User not found' });
-  reply.send(user);
+
+  reply.code(200).send(user);
 };
 
-const remove = async (req, reply) => {
-  const { userId } = await req.params;
-  const result = await usersRepo.remove(userId);
+export const remove = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const result = await usersRepo.remove(req.params.userId);
 
   if (!result) reply.code(404).send({ message: 'User not found' });
 
   reply.code(204).send();
-};
-
-module.exports = {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
 };
