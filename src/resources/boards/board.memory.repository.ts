@@ -1,5 +1,5 @@
 import { Board, IBoard } from './board.model';
-// const { deleteTask } = require('../tasks/task.memory.repository');
+import taskRepo from '../tasks/task.memory.repository';
 
 const boards: IBoard[] = [];
 
@@ -39,8 +39,9 @@ const remove = async (boardId: string): Promise<IBoard[] | boolean> => {
 
   if (idx === -1) return false;
 
+  await taskRepo.deleteRelatedTasks(boardId);
   boards.splice(idx, 1);
-  // deleteTask(id);
+
   return boards;
 };
 
