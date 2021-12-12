@@ -20,6 +20,12 @@ export class User implements IUser {
     this.password = password;
   }
 
+  /**
+   * Returns the object type of IUser
+   *
+   * @param user - a first term type of IUser
+   * @returns Object type of IUser
+   */
   static toResponse(user: IUser): IUser {
     const { id, name, login } = user;
     return { id, name, login };
