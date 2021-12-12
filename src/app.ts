@@ -1,7 +1,7 @@
 import fastify, { FastifyPluginOptions } from 'fastify';
 import swagger from 'fastify-swagger';
 import path from 'path';
-// import userRoutes from './resources/users/user.router';
+import userRoutes from './resources/users/user.router';
 // import boardRoutes from './resources/boards/board.router';
 // import taskRoutes from './resources/tasks/task.router';
 
@@ -20,7 +20,7 @@ app.register<FastifyPluginOptions>(swagger, {
   exposeRoute: true,
 });
 
-// app.register(userRoutes);
+app.register(userRoutes);
 // app.register(boardRoutes);
 // app.register(taskRoutes);
 
