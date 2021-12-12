@@ -1,5 +1,5 @@
 import { User, IUser } from './user.model';
-// const { deleteUser } = require('../tasks/task.memory.repository');
+import taskRepo from '../tasks/task.memory.repository';
 
 const users: IUser[] = [];
 
@@ -39,8 +39,8 @@ const remove = async (userId: string): Promise<IUser[] | boolean> => {
 
   if (idx === -1) return false;
 
+  await taskRepo.unassignedTasks(userId);
   users.splice(idx, 1);
-  // deleteUser(id);
 
   return users;
 };
