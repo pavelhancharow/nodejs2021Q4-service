@@ -1,51 +1,43 @@
-const tasksRepo = require('./task.memory.repository');
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { ITask } from './task.model';
+import tasksRepo from './task.memory.repository';
 
-const getAll = async (req, reply) => {
-  const { boardId } = await req.params;
+type CustomRequest = FastifyRequest<{
+  Params: { boardId: string, taskId: string };
+  Body: ITask
+}>
 
-  const tasks = await tasksRepo.getAll(boardId);
-  reply.send(tasks);
+export const getAll = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const tasks = await tasksRepo.getAll(req.params.boardId);
+  reply.code(200).send(tasks);
 };
 
-const getById = async (req, reply) => {
-  const { boardId, taskId } = await req.params;
+export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const { boardId, taskId } = req.params;
   const task = await tasksRepo.getById(boardId, taskId);
 
-  if (!task) reply.code(404).send({ message: 'Task not found' });
+  if (!task) reply.code(404).send('Task not found');
 
-  reply.send(task);
+  reply.code(200).send(task);
 };
 
-const create = async (req, reply) => {
-  const { params, body } = await req;
-
-  const task = await tasksRepo.create(params, body);
+export const create = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const task = await tasksRepo.create(req.params.boardId, req.body);
   reply.code(201).send(task);
 };
 
-const update = async (req, reply) => {
-  const { params, body } = req;
+export const update = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const task = await tasksRepo.update(req.params.taskId, req.body);
 
-  const task = await tasksRepo.update(params, body);
+  if (!task) reply.code(404).send('Task not found');
 
-  if (!task) reply.code(404).send({ message: 'Task not found' });
-
-  reply.send(task);
+  reply.code(200).send(task);
 };
 
-const remove = async (req, reply) => {
-  const { boardId, taskId } = req.params;
-  const result = await tasksRepo.remove(boardId, taskId);
+export const remove = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const result = await tasksRepo.remove(req.params.taskId);
 
-  if (!result) reply.code(404).send({ message: 'Task not found' });
+  if (!result) reply.code(404).send('Task not found');
 
   reply.code(204).send();
-};
-
-module.exports = {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
 };

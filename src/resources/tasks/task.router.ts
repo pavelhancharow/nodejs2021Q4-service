@@ -1,12 +1,15 @@
-const {
+import { FastifyInstance, RegisterOptions } from 'fastify';
+import {
   getTasksOpts,
   getTaskOpts,
   postTaskOpts,
   putTaskOpts,
   deleteTaskOpts,
-} = require('./task.schema');
+} from './task.schema';
 
-async function taskRoutes(fastify, options, done) {
+type Done = () => void;
+
+export default async function taskRoutes(fastify: FastifyInstance, _: RegisterOptions, done: Done): Promise<void> {
   fastify.get('/boards/:boardId/tasks', getTasksOpts);
   fastify.get('/boards/:boardId/tasks/:taskId', getTaskOpts);
   fastify.post('/boards/:boardId/tasks', postTaskOpts);
@@ -15,5 +18,3 @@ async function taskRoutes(fastify, options, done) {
 
   done();
 }
-
-module.exports = taskRoutes;
