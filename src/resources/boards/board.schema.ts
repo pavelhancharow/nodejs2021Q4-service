@@ -1,9 +1,9 @@
-const { getAll, getById, create, update, remove } = require('./board.service');
+import { getAll, getById, create, update, remove } from './board.service';
 
 const Board = {
   type: 'object',
   properties: {
-    id: { type: 'string', format: 'uuid' },
+    id: { type: 'string' },
     title: { type: 'string' },
     columns: {
       type: 'array',
@@ -19,7 +19,7 @@ const Board = {
   },
 };
 
-const getBoardsOpts = {
+export const getBoardsOpts = {
   method: 'GET',
   schema: {
     response: {
@@ -32,7 +32,7 @@ const getBoardsOpts = {
   handler: getAll,
 };
 
-const getBoardOpts = {
+export const getBoardOpts = {
   method: 'GET',
   schema: {
     response: {
@@ -42,7 +42,7 @@ const getBoardOpts = {
   handler: getById,
 };
 
-const postBoardOpts = {
+export const postBoardOpts = {
   method: 'POST',
   schema: {
     body: {
@@ -69,7 +69,7 @@ const postBoardOpts = {
   handler: create,
 };
 
-const putBoardOpts = {
+export const putBoardOpts = {
   method: 'PUT',
   schema: {
     response: {
@@ -79,15 +79,7 @@ const putBoardOpts = {
   handler: update,
 };
 
-const deleteBoardOpts = {
+export const deleteBoardOpts = {
   method: 'DELETE',
   handler: remove,
-};
-
-module.exports = {
-  getBoardsOpts,
-  getBoardOpts,
-  postBoardOpts,
-  putBoardOpts,
-  deleteBoardOpts,
 };

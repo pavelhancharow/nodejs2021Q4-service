@@ -1,12 +1,15 @@
-const {
+import { FastifyInstance, RegisterOptions } from 'fastify';
+import {
   getBoardsOpts,
   getBoardOpts,
   postBoardOpts,
   deleteBoardOpts,
   putBoardOpts,
-} = require('./board.schema');
+} from './board.schema';
 
-function boardRoutes(fastify, options, done) {
+type Done = () => void;
+
+export default async function boardRoutes(fastify: FastifyInstance, _: RegisterOptions, done: Done): Promise<void> {
   fastify.get('/boards', getBoardsOpts);
   fastify.get('/boards/:boardId', getBoardOpts);
   fastify.post('/boards', postBoardOpts);
@@ -15,5 +18,3 @@ function boardRoutes(fastify, options, done) {
 
   done();
 }
-
-module.exports = boardRoutes;

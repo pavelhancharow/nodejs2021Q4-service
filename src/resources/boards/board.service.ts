@@ -1,47 +1,42 @@
-const boardsRepo = require('./board.memory.repository');
+import { FastifyReply, FastifyRequest } from 'fastify';
+import { IBoard } from './board.model';
+import boardsRepo from './board.memory.repository';
 
-const getAll = async (req, reply) => {
+type CustomRequest = FastifyRequest<{
+  Params: { boardId: string };
+  Body: IBoard
+}>
+
+export const getAll = async (_: FastifyRequest, reply: FastifyReply): Promise<void> => {
   const boards = await boardsRepo.getAll();
-  reply.send(boards);
+  reply.code(200).send(boards);
 };
 
-const getById = async (req, reply) => {
-  const { boardId } = await req.params;
-  const board = await boardsRepo.getById(boardId);
+export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const board = await boardsRepo.getById(req.params.boardId);
 
   if (!board) reply.code(404).send({ message: 'Board not found' });
 
-  reply.send(board);
+  reply.code(200).send(board);
 };
 
-const create = async (req, reply) => {
-  const { body } = await req;
-
-  const board = await boardsRepo.create(body);
+export const create = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const board = await boardsRepo.create(req.body);
   reply.code(201).send(board);
 };
 
-const update = async (req, reply) => {
-  const { params, body } = await req;
-  const board = await boardsRepo.update(params, body);
+export const update = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const board = await boardsRepo.update(req.params.boardId, req.body);
 
-  if (!board) reply.code(404).send({ message: 'Board not found' });
-  reply.send(board);
+  if (!board) reply.code(404).send(`Board not found`);
+
+  reply.code(200).send(board);
 };
 
-const remove = async (req, reply) => {
-  const { boardId } = await req.params;
-  const result = await boardsRepo.remove(boardId);
+export const remove = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+  const result = await boardsRepo.remove(req.params.boardId);
 
-  if (!result) reply.code(404).send({ message: 'Board not found' });
+  if (!result) reply.code(404).send('Board not found');
 
   reply.code(204).send();
-};
-
-module.exports = {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
 };

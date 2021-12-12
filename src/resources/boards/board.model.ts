@@ -1,17 +1,24 @@
-const uuid = require('uuid');
-const { Column } = require('../column/column.model');
+import { v4 as uuid } from 'uuid';
+import { Column, IColumn } from '../column/column.model';
 
-class Board {
-  constructor({ id = uuid.v4(), title, columns } = {}) {
-    this.id = id;
+export interface IBoard {
+  id?: string;
+  title: string;
+  columns: IColumn[];
+}
+
+export class Board {
+  id: string;
+  title: string;
+  columns: IColumn[];
+
+  constructor({ title, columns = [] }: IBoard) {
+    this.id = uuid();
     this.title = title;
-
     this.columns = Board.setColumns(columns);
   }
 
-  static setColumns(array) {
-    return [...array].map((cl) => new Column(cl));
+  static setColumns(array: IColumn[]) {
+    return array.map((cl) => new Column(cl));
   }
 }
-
-module.exports = { Board };
