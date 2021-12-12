@@ -21,7 +21,8 @@
     "noInlineConfig": true,
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".ts"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "moduleDirectory": ["node_modules", "src/"]
       }
     },
     "node": {
@@ -35,6 +36,8 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:node/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
     "plugin:import/typescript",
     "airbnb-base",
     "prettier"
