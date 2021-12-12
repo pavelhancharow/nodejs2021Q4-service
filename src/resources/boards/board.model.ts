@@ -18,6 +18,12 @@ export class Board {
     this.columns = Board.setColumns(columns);
   }
 
+  /**
+   * Returns the array of objects type of IColumn
+   *
+   * @param array - a first term array of objects type of IColumn
+   * @returns Array of objects type of IColumn
+   */
   static setColumns(array: IColumn[]) {
     return array.map((cl) => new Column(cl));
   }
