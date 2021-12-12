@@ -9,6 +9,14 @@ import {
 
 type Done = () => void;
 
+/**
+ * Fastify router providing task related routes
+ *
+ * @param fastify - a first term type of FastifyInstance
+ * @param _ - a second term type of RegisterOptions
+ * @param done - a third term type of Done
+ * @returns type void
+ */
 export default async function taskRoutes(fastify: FastifyInstance, _: RegisterOptions, done: Done): Promise<void> {
   fastify.get('/boards/:boardId/tasks', getTasksOpts);
   fastify.get('/boards/:boardId/tasks/:taskId', getTaskOpts);
