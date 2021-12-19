@@ -11,7 +11,6 @@ import {
  * Fastify router providing board related routes
  *
  * @param fastify - a first term type of FastifyInstance
- * @returns Promise type void
  */
 export const boardRoutes: FastifyPluginAsync = async (
   fastify: FastifyInstance

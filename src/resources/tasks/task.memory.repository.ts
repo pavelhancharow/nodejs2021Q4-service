@@ -84,7 +84,6 @@ const remove = async (taskId: string): Promise<ITask[] | boolean> => {
  * Updates property in object type of ITask
  *
  * @param userId - a first term string
- * @returns Promise type void
  */
 const unassignedTasks = async (userId: string): Promise<void> => {
   for (let i = 0; i < tasks.length; i++) {
@@ -98,7 +97,6 @@ const unassignedTasks = async (userId: string): Promise<void> => {
  * Removes the object from the array of objects type of ITask
  *
  * @param boardId - a first term string
- * @returns Promise type void
  */
 const deleteRelatedTasks = async (boardId: string): Promise<void> => {
   for (let i = tasks.length - 1; i >= 0; i -= 1) {
