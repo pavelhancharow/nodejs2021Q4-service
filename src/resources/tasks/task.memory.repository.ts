@@ -8,7 +8,8 @@ const tasks: ITask[] = [];
  * @param boardId - a first term string
  * @returns Promise array of objects type of ITask
  */
-const getAll = async (boardId: string): Promise<ITask[]> => tasks.filter((task) => task.boardId === boardId);
+const getAll = async (boardId: string): Promise<ITask[]> =>
+  tasks.filter((task) => task.boardId === boardId);
 
 /**
  * Gets by id the object type of ITask or boolean value
@@ -17,7 +18,10 @@ const getAll = async (boardId: string): Promise<ITask[]> => tasks.filter((task) 
  * @param taskId - a second term string
  * @returns Promise object type of ITask or boolean value
  */
-const getById = async (boardId: string, taskId: string): Promise<ITask | boolean> => {
+const getById = async (
+  boardId: string,
+  taskId: string
+): Promise<ITask | boolean> => {
   const task = tasks.find((t) => t.boardId === boardId && t.id === taskId);
 
   if (!task) return false;
@@ -98,7 +102,7 @@ const unassignedTasks = async (userId: string): Promise<void> => {
  */
 const deleteRelatedTasks = async (boardId: string): Promise<void> => {
   for (let i = tasks.length - 1; i >= 0; i -= 1) {
-    if (tasks[i].boardId === boardId) tasks.splice(i, 1)
+    if (tasks[i].boardId === boardId) tasks.splice(i, 1);
   }
 };
 

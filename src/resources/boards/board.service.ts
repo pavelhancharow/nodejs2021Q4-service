@@ -4,8 +4,8 @@ import boardsRepo from './board.memory.repository';
 
 type CustomRequest = FastifyRequest<{
   Params: { boardId: string };
-  Body: IBoard
-}>
+  Body: IBoard;
+}>;
 
 /**
  * Gets the array of objects type of IBoard
@@ -14,7 +14,10 @@ type CustomRequest = FastifyRequest<{
  * @param reply - a second term type of FastifyReply
  * @returns Promise type void
  */
-export const getAll = async (_: FastifyRequest, reply: FastifyReply): Promise<void> => {
+export const getAll = async (
+  _: FastifyRequest,
+  reply: FastifyReply
+): Promise<void> => {
   const boards = await boardsRepo.getAll();
   reply.code(200).send(boards);
 };
@@ -26,7 +29,10 @@ export const getAll = async (_: FastifyRequest, reply: FastifyReply): Promise<vo
  * @param reply - a second term type of FastifyReply
  * @returns Promise type void
  */
-export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+export const getById = async (
+  req: CustomRequest,
+  reply: FastifyReply
+): Promise<void> => {
   const board = await boardsRepo.getById(req.params.boardId);
 
   if (!board) reply.code(404).send({ message: 'Board not found' });
@@ -41,7 +47,10 @@ export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<
  * @param reply - a second term type of FastifyReply
  * @returns Promise type void
  */
-export const create = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+export const create = async (
+  req: CustomRequest,
+  reply: FastifyReply
+): Promise<void> => {
   const board = await boardsRepo.create(req.body);
   reply.code(201).send(board);
 };
@@ -53,7 +62,10 @@ export const create = async (req: CustomRequest, reply: FastifyReply): Promise<v
  * @param reply - a second term type of FastifyReply
  * @returns Promise type void
  */
-export const update = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+export const update = async (
+  req: CustomRequest,
+  reply: FastifyReply
+): Promise<void> => {
   const board = await boardsRepo.update(req.params.boardId, req.body);
 
   if (!board) reply.code(404).send(`Board not found`);
@@ -68,7 +80,10 @@ export const update = async (req: CustomRequest, reply: FastifyReply): Promise<v
  * @param reply - a second term type of FastifyReply
  * @returns Promise type void
  */
-export const remove = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
+export const remove = async (
+  req: CustomRequest,
+  reply: FastifyReply
+): Promise<void> => {
   const result = await boardsRepo.remove(req.params.boardId);
 
   if (!result) reply.code(404).send('Board not found');

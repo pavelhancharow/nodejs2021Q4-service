@@ -12,7 +12,9 @@ const start = async (): Promise<void> => {
   try {
     app.listen(PORT, (err: Error | null): void => {
       if (err) throw new Error(err.message);
-      process.stdout.write(`Server is running on PORT: \x1b[32m${PORT}\x1b[0m\n`);
+      process.stdout.write(
+        `Server is running on PORT: \x1b[32m${PORT}\x1b[0m\n`
+      );
     });
   } catch (err) {
     app.log.error(err);

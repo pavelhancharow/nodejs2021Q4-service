@@ -1,13 +1,13 @@
 import { v4 as uuid } from 'uuid';
 
 export interface ITask {
-  id?: string,
-  title: string,
-  order: number,
-  description: string,
-  userId: string | null,
-  boardId?: string | null,
-  columnId: string | null,
+  id?: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId?: string | null;
+  columnId: string | null;
 }
 
 export class Task {
@@ -32,7 +32,7 @@ export class Task {
     description,
     userId = null,
     columnId = null,
-    boardId = null
+    boardId = null,
   }: ITask) {
     this.id = uuid();
     this.title = title;

@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
 export interface IUser {
-  id?: string,
+  id?: string;
   name: string;
   login: string;
   password?: string;

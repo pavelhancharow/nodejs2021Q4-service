@@ -1,9 +1,9 @@
 import fastify from 'fastify';
 import swagger from 'fastify-swagger';
 import path from 'path';
-import userRoutes from './resources/users/user.router';
-import boardRoutes from './resources/boards/board.router';
-import taskRoutes from './resources/tasks/task.router';
+import { userRoutes } from './resources/users/user.router';
+import { boardRoutes } from './resources/boards/board.router';
+import { taskRoutes } from './resources/tasks/task.router';
 
 const app = fastify();
 
@@ -13,7 +13,7 @@ app.register(swagger, {
   exposeRoute: true,
   specification: {
     path: path.resolve(__dirname, '../doc/api.yaml'),
-    baseDir: path.resolve(__dirname)
+    baseDir: path.resolve(__dirname),
   },
 });
 
