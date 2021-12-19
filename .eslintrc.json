@@ -43,6 +43,7 @@
     "prettier"
   ],
   "rules": {
+    "max-len": ["warn", { "code": 80 }],
     "import/extensions": "off",
     "linebreak-style": "off",
     "node/no-unsupported-features/es-syntax": "off",
