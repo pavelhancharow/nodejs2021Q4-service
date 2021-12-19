@@ -12,7 +12,7 @@ type CustomRequest = FastifyRequest<{
  *
  * @param _ - a first term type of FastifyRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const getAll = async (_: FastifyRequest, reply: FastifyReply): Promise<void> => {
   const boards = await boardsRepo.getAll();
@@ -24,7 +24,7 @@ export const getAll = async (_: FastifyRequest, reply: FastifyReply): Promise<vo
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const board = await boardsRepo.getById(req.params.boardId);
@@ -39,7 +39,7 @@ export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const create = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const board = await boardsRepo.create(req.body);
@@ -51,7 +51,7 @@ export const create = async (req: CustomRequest, reply: FastifyReply): Promise<v
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const update = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const board = await boardsRepo.update(req.params.boardId, req.body);
@@ -66,7 +66,7 @@ export const update = async (req: CustomRequest, reply: FastifyReply): Promise<v
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const remove = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const result = await boardsRepo.remove(req.params.boardId);

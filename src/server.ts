@@ -3,7 +3,12 @@ import config from './common/config';
 
 const { PORT } = config;
 
-const start = async () => {
+/**
+ * Running the server
+ *
+ * @returns Promise type void
+ */
+const start = async (): Promise<void> => {
   try {
     app.listen(PORT, (err: Error | null): void => {
       if (err) throw new Error(err.message);

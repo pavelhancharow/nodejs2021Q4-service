@@ -13,6 +13,13 @@ export class User implements IUser {
   login: string;
   password: string;
 
+  /**
+   * Creating an instance of a class User
+   *
+   * @param object - a first term type of IUser
+   *
+   * @returns Object type of IUser by default
+   */
   constructor({ name = 'USER', login = 'user', password = 'P@55w0rd' }: IUser) {
     this.id = uuid();
     this.name = name;

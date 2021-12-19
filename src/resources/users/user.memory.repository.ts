@@ -6,7 +6,7 @@ const users: IUser[] = [];
 /**
  * Gets the array of objects type of IUser
  *
- * @returns Array of objects type of IUser
+ * @returns Promise array of objects type of IUser
  */
 const getAll = async (): Promise<IUser[]> => users.map(User.toResponse);
 
@@ -14,7 +14,7 @@ const getAll = async (): Promise<IUser[]> => users.map(User.toResponse);
  * Gets by id the object type of IUser or boolean value
  *
  * @param userId - a first term string
- * @returns Object type of IUser or boolean value
+ * @returns Promise object type of IUser or boolean value
  */
 const getById = async (userId: string): Promise<IUser | boolean> => {
   const user = users.find((u) => u.id === userId);
@@ -28,7 +28,7 @@ const getById = async (userId: string): Promise<IUser | boolean> => {
  * Creates new object type of IUser
  *
  * @param body - a first term type of IUser
- * @returns New object type of IUser
+ * @returns Promise new object type of IUser
  */
 const create = async (body: IUser): Promise<IUser> => {
   const user = new User(body);
@@ -43,7 +43,7 @@ const create = async (body: IUser): Promise<IUser> => {
  *
  * @param userId - a first term string
  * @param body - a second term object type of IUser
- * @returns Updated object type of IUser
+ * @returns Promise updated object type of IUser
  */
 const update = async (userId: string, body: IUser): Promise<IUser> => {
   let idx = NaN;
@@ -62,7 +62,7 @@ const update = async (userId: string, body: IUser): Promise<IUser> => {
  * Removes the object from the array of objects type of IUser
  *
  * @param userId - a first term string
- * @returns Array of objects type of IUser or boolean value
+ * @returns Promise array of objects type of IUser or boolean value
  */
 const remove = async (userId: string): Promise<IUser[] | boolean> => {
   const idx = users.findIndex((u) => u.id === userId);

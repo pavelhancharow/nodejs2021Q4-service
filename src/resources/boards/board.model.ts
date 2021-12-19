@@ -12,6 +12,13 @@ export class Board {
   title: string;
   columns: IColumn[];
 
+  /**
+   * Creating an instance of a class Board
+   *
+   * @param object - a first term type of IBoard
+   *
+   * @returns Object type of IBoard by default
+   */
   constructor({ title, columns = [] }: IBoard) {
     this.id = uuid();
     this.title = title;

@@ -19,6 +19,13 @@ export class Task {
   boardId: string | null;
   columnId: string | null;
 
+  /**
+   * Creating an instance of a class Task
+   *
+   * @param object - a first term type of ITask
+   *
+   * @returns Object type of ITask by default
+   */
   constructor({
     title,
     order = 0,

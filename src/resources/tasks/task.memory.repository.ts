@@ -6,7 +6,7 @@ const tasks: ITask[] = [];
  * Gets the array of objects type of ITask
  *
  * @param boardId - a first term string
- * @returns Array of objects type of ITask
+ * @returns Promise array of objects type of ITask
  */
 const getAll = async (boardId: string): Promise<ITask[]> => tasks.filter((task) => task.boardId === boardId);
 
@@ -15,10 +15,10 @@ const getAll = async (boardId: string): Promise<ITask[]> => tasks.filter((task) 
  *
  * @param boardId - a first term string
  * @param taskId - a second term string
- * @returns Object type of ITask or boolean value
+ * @returns Promise object type of ITask or boolean value
  */
 const getById = async (boardId: string, taskId: string): Promise<ITask | boolean> => {
-  const task = tasks.filter((t) => t.boardId === boardId && t.id === taskId)[0];
+  const task = tasks.find((t) => t.boardId === boardId && t.id === taskId);
 
   if (!task) return false;
 
@@ -30,7 +30,7 @@ const getById = async (boardId: string, taskId: string): Promise<ITask | boolean
  *
  * @param boardId - a first term string
  * @param body - a second term type of ITask
- * @returns New object type of ITask
+ * @returns Promise new object type of ITask
  */
 const create = async (boardId: string, body: ITask): Promise<ITask> => {
   const task = new Task({ ...body, boardId });
@@ -45,7 +45,7 @@ const create = async (boardId: string, body: ITask): Promise<ITask> => {
  *
  * @param taskId - a first term string
  * @param body - a second term object type of ITask
- * @returns Updated object type of ITask
+ * @returns Promise updated object type of ITask
  */
 const update = async (taskId: string, body: ITask): Promise<ITask> => {
   let idx = NaN;
@@ -64,7 +64,7 @@ const update = async (taskId: string, body: ITask): Promise<ITask> => {
  * Removes the object from the array of objects type of ITask
  *
  * @param taskId - a first term string
- * @returns Array of objects type of ITask or boolean value
+ * @returns Promise array of objects type of ITask or boolean value
  */
 const remove = async (taskId: string): Promise<ITask[] | boolean> => {
   const idx = tasks.findIndex((t) => t.id === taskId);
@@ -80,7 +80,7 @@ const remove = async (taskId: string): Promise<ITask[] | boolean> => {
  * Updates property in object type of ITask
  *
  * @param userId - a first term string
- * @returns type void
+ * @returns Promise type void
  */
 const unassignedTasks = async (userId: string): Promise<void> => {
   for (let i = 0; i < tasks.length; i++) {
@@ -94,7 +94,7 @@ const unassignedTasks = async (userId: string): Promise<void> => {
  * Removes the object from the array of objects type of ITask
  *
  * @param boardId - a first term string
- * @returns type void
+ * @returns Promise type void
  */
 const deleteRelatedTasks = async (boardId: string): Promise<void> => {
   for (let i = tasks.length - 1; i >= 0; i -= 1) {

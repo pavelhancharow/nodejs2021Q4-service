@@ -12,11 +12,11 @@ type CustomRequest = FastifyRequest<{
  *
  * @param _ - a first term type of FastifyRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const getAll = async (_: FastifyRequest, reply: FastifyReply): Promise<void> => {
   const users = await usersRepo.getAll();
-  reply.code(200).send(users);
+  return reply.code(200).send(users);
 };
 
 /**
@@ -24,7 +24,7 @@ export const getAll = async (_: FastifyRequest, reply: FastifyReply): Promise<vo
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const user = await usersRepo.getById(req.params.userId);
@@ -39,7 +39,7 @@ export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const create = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const user = await usersRepo.create(req.body);
@@ -52,7 +52,7 @@ export const create = async (req: CustomRequest, reply: FastifyReply): Promise<v
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const update = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const user = await usersRepo.update(req.params.userId, req.body);
@@ -67,7 +67,7 @@ export const update = async (req: CustomRequest, reply: FastifyReply): Promise<v
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const remove = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const result = await usersRepo.remove(req.params.userId);

@@ -6,7 +6,7 @@ const boards: IBoard[] = [];
 /**
  * Gets the array of objects type of IBoard
  *
- * @returns Array of objects type of IBoard
+ * @returns Promise array of objects type of IBoard
  */
 const getAll = async (): Promise<IBoard[]> => boards;
 
@@ -14,7 +14,7 @@ const getAll = async (): Promise<IBoard[]> => boards;
  * Gets by id the object type of IBoard or boolean value
  *
  * @param boardId - a first term string
- * @returns Object type of IBoard or boolean value
+ * @returns Promise object type of IBoard or boolean value
  */
 const getById = async (boardId: string): Promise<IBoard | boolean> => {
   const board = boards.find((b) => b.id === boardId);
@@ -28,7 +28,7 @@ const getById = async (boardId: string): Promise<IBoard | boolean> => {
  * Creates new object type of IBoard
  *
  * @param body - a first term type of IBoard
- * @returns New object type of IBoard
+ * @returns Promise new object type of IBoard
  */
 const create = async (body: IBoard): Promise<IBoard> => {
   const board = new Board(body);
@@ -43,7 +43,7 @@ const create = async (body: IBoard): Promise<IBoard> => {
  *
  * @param boardId - a first term string
  * @param body - a second term object type of IBoard
- * @returns Updated object type of IBoard
+ * @returns Promise updated object type of IBoard
  */
 const update = async (boardId: string, body: IBoard): Promise<IBoard> => {
   let idx = NaN;
@@ -62,7 +62,7 @@ const update = async (boardId: string, body: IBoard): Promise<IBoard> => {
  * Removes the object from the array of objects type of IBoard
  *
  * @param boardId - a first term string
- * @returns Array of objects type of IBoard or boolean value
+ * @returns Promise array of objects type of IBoard or boolean value
  */
 const remove = async (boardId: string): Promise<IBoard[] | boolean> => {
   const idx = boards.findIndex((b) => b.id === boardId);

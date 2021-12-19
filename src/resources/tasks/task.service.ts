@@ -12,7 +12,7 @@ type CustomRequest = FastifyRequest<{
  *
  * @param _ - a first term type of FastifyRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const getAll = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const tasks = await tasksRepo.getAll(req.params.boardId);
@@ -24,7 +24,7 @@ export const getAll = async (req: CustomRequest, reply: FastifyReply): Promise<v
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const { boardId, taskId } = req.params;
@@ -40,7 +40,7 @@ export const getById = async (req: CustomRequest, reply: FastifyReply): Promise<
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const create = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const task = await tasksRepo.create(req.params.boardId, req.body);
@@ -52,7 +52,7 @@ export const create = async (req: CustomRequest, reply: FastifyReply): Promise<v
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const update = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const task = await tasksRepo.update(req.params.taskId, req.body);
@@ -67,7 +67,7 @@ export const update = async (req: CustomRequest, reply: FastifyReply): Promise<v
  *
  * @param req - a first term type of CustomRequest
  * @param reply - a second term type of FastifyReply
- * @returns type void
+ * @returns Promise type void
  */
 export const remove = async (req: CustomRequest, reply: FastifyReply): Promise<void> => {
   const result = await tasksRepo.remove(req.params.taskId);
