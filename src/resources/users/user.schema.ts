@@ -1,15 +1,15 @@
-const { getAll, getById, create, update, remove } = require('./user.service');
+import { getAll, getById, create, update, remove } from './user.service';
 
 const User = {
   type: 'object',
   properties: {
-    id: { type: 'string', format: 'uuid' },
+    id: { type: 'string' },
     name: { type: 'string' },
     login: { type: 'string' },
   },
 };
 
-const getUsersOpts = {
+export const getUsersOpts = {
   method: 'GET',
   schema: {
     response: {
@@ -22,7 +22,7 @@ const getUsersOpts = {
   handler: getAll,
 };
 
-const getUserOpts = {
+export const getUserOpts = {
   method: 'GET',
   schema: {
     response: {
@@ -32,7 +32,7 @@ const getUserOpts = {
   handler: getById,
 };
 
-const postUserOpts = {
+export const postUserOpts = {
   method: 'POST',
   schema: {
     body: {
@@ -51,7 +51,7 @@ const postUserOpts = {
   handler: create,
 };
 
-const putUserOpts = {
+export const putUserOpts = {
   method: 'PUT',
   schema: {
     response: {
@@ -61,15 +61,7 @@ const putUserOpts = {
   handler: update,
 };
 
-const deleteUserOpts = {
+export const deleteUserOpts = {
   method: 'DELETE',
   handler: remove,
-};
-
-module.exports = {
-  getUsersOpts,
-  getUserOpts,
-  postUserOpts,
-  putUserOpts,
-  deleteUserOpts,
 };

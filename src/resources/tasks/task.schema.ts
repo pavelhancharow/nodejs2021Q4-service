@@ -1,4 +1,4 @@
-const { getAll, getById, create, update, remove } = require('./task.service');
+import { getAll, getById, create, update, remove } from './task.service';
 
 const TaskProps = {
   id: { type: 'string' },
@@ -21,7 +21,7 @@ const Task = {
   },
 };
 
-const getTasksOpts = {
+export const getTasksOpts = {
   method: 'GET',
   schema: {
     response: {
@@ -37,17 +37,17 @@ const getTasksOpts = {
   handler: getAll,
 };
 
-const getTaskOpts = {
+export const getTaskOpts = {
   method: 'GET',
   schema: {
     response: {
-      200: Task,
+      200: TaskProps,
     },
   },
   handler: getById,
 };
 
-const postTaskOpts = {
+export const postTaskOpts = {
   method: 'POST',
   schema: {
     body: {
@@ -59,7 +59,7 @@ const postTaskOpts = {
   handler: create,
 };
 
-const putTaskOpts = {
+export const putTaskOpts = {
   method: 'PUT',
   schema: {
     body: {
@@ -81,15 +81,7 @@ const putTaskOpts = {
   handler: update,
 };
 
-const deleteTaskOpts = {
+export const deleteTaskOpts = {
   method: 'DELETE',
   handler: remove,
-};
-
-module.exports = {
-  getTasksOpts,
-  getTaskOpts,
-  postTaskOpts,
-  putTaskOpts,
-  deleteTaskOpts,
 };
