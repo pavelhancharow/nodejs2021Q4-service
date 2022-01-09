@@ -16,6 +16,5 @@ yarn-error.log*
 Dockerfile
 Dockerfile*.*
 
-*database
-*db
+*data
 *logs
