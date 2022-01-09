@@ -54,7 +54,6 @@
     "fastify-swagger": "^4.12.6",
     "pino": "^7.6.1",
     "pino-pretty": "^7.3.0",
-    "swagger-ui-express": "4.1.6",
     "uuid": "8.3.2",
     "yamljs": "0.3.0"
   },
