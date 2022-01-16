@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { IBoard } from './board.model';
+import { Board } from './board.model';
 import boardsRepo from './board.memory.repository';
 
 type CustomRequest = FastifyRequest<{
   Params: { boardId: string };
-  Body: IBoard;
+  Body: Board;
 }>;
 
 /**
