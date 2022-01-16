@@ -1,0 +1,15 @@
+**/node_modules
+**/Dockerfile
+
+build
+data
+dist
+logs
+
+.git
+.idea
+.vscode
+.editorconfig
+
+npm-debug.log
+LICENSE
