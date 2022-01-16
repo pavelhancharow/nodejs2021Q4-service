@@ -32,7 +32,7 @@ services:
     env_file:
       - .env
     ports:
-      - ${PORT_DB}:${PORT_DB}
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     networks:
       - app_network
 
