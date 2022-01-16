@@ -18,7 +18,7 @@ services:
     networks:
       - app_network
     restart: unless-stopped
-    command: npm run start:docker
+    command: npm start
   postgres:
     restart: always
     image: postgres:9.6.24-alpine3.15
