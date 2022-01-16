@@ -1,76 +1,74 @@
-import { User, IUser } from './user.model';
+import { getRepository } from 'typeorm';
+import { User } from './user.model';
 import taskRepo from '../tasks/task.memory.repository';
 
-const users: IUser[] = [];
-
 /**
- * Gets the array of objects type of IUser
+ * Gets the array of objects type of User
  *
- * @returns Promise array of objects type of IUser
+ * @returns Promise array of objects type of User
  */
-const getAll = async (): Promise<IUser[]> => users.map(User.toResponse);
+const getAll = async (): Promise<User[]> => getRepository(User).find();
 
 /**
- * Gets by id the object type of IUser or boolean value
+ * Gets by id the object type of User or boolean value
  *
  * @param userId - a first term string
- * @returns Promise object type of IUser or boolean value
+ * @returns Promise object type of User or boolean value
  */
-const getById = async (userId: string): Promise<IUser | boolean> => {
-  const user = users.find((u) => u.id === userId);
+const getById = async (userId: string): Promise<User | boolean> => {
+  const user = await getRepository(User).findOne(userId);
 
   if (!user) return false;
 
-  return User.toResponse(user);
+  return user;
 };
 
 /**
- * Creates new object type of IUser
+ * Creates new object type of User
  *
- * @param body - a first term type of IUser
- * @returns Promise new object type of IUser
+ * @param body - a first term type of User
+ * @returns Promise new object type of User
  */
-const create = async (body: IUser): Promise<IUser> => {
-  const user = new User(body);
+const create = async (body: User): Promise<User> => {
+  const user = await getRepository(User).save(body);
 
-  users.push(user);
-
-  return User.toResponse(user);
+  return user;
 };
 
 /**
- * Updates object type of IUser
+ * Updates object type of User
  *
  * @param userId - a first term string
- * @param body - a second term object type of IUser
- * @returns Promise updated object type of IUser
+ * @param body - a second term object type of User
+ * @returns Promise updated object type of User
  */
-const update = async (userId: string, body: IUser): Promise<IUser> => {
-  let idx = NaN;
+const update = async (userId: string, body: User): Promise<User | boolean> => {
+  const user = await getRepository(User).findOne(userId);
 
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].id === userId) {
-      idx = i;
-      users[i] = { ...users[i], ...body };
-    }
+  if (user) {
+    const updateUser = await getRepository(User).save({ ...user, ...body });
+
+    return updateUser;
   }
 
-  return User.toResponse(users[idx]);
+  return false;
 };
 
 /**
- * Removes the object from the array of objects type of IUser
+ * Removes the object from the array of objects type of User
  *
  * @param userId - a first term string
- * @returns Promise array of objects type of IUser or boolean value
+ * @returns Promise array of objects type of User or boolean value
  */
-const remove = async (userId: string): Promise<IUser[] | boolean> => {
-  const idx = users.findIndex((u) => u.id === userId);
+const remove = async (userId: string): Promise<User[] | boolean> => {
+  const user = await getRepository(User).findOne(userId);
 
-  if (idx === -1) return false;
+  if (!user) return false;
 
   await taskRepo.unassignedTasks(userId);
-  users.splice(idx, 1);
+  await getRepository(User).delete(userId);
+
+  const users = await getRepository(User).find();
 
   return users;
 };
