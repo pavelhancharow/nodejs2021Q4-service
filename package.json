@@ -10,7 +10,7 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "nodemon --exec npx ts-node src/server.ts",
-    "start:docker": "nodemon --legacy-watch src/server.ts",
+    "start:docker": "nodemon src/server.ts --exitcrash --legacy-watch",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
