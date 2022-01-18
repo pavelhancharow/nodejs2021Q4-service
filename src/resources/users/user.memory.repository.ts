@@ -1,6 +1,5 @@
 import { getRepository } from 'typeorm';
 import { User } from './user.model';
-import taskRepo from '../tasks/task.memory.repository';
 
 /**
  * Gets the array of objects type of User
@@ -60,17 +59,14 @@ const update = async (userId: string, body: User): Promise<User | boolean> => {
  * @param userId - a first term string
  * @returns Promise array of objects type of User or boolean value
  */
-const remove = async (userId: string): Promise<User[] | boolean> => {
+const remove = async (userId: string): Promise<boolean> => {
   const user = await getRepository(User).findOne(userId);
 
   if (!user) return false;
 
-  await taskRepo.unassignedTasks(userId);
   await getRepository(User).delete(userId);
 
-  const users = await getRepository(User).find();
-
-  return users;
+  return true;
 };
 
 export = {
