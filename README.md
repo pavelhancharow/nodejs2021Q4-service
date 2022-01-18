@@ -55,6 +55,26 @@ To run only specific test suite with authorization (users, boards or tasks)
 npm run test:auth <suite name>
 ```
 
+## Using Docker
+
+Running docker
+
+```
+docker-compose up
+```
+
+or
+
+```
+docker-compose up --build
+```
+
+Stopping docker
+
+```
+docker-compose down
+```
+
 ## Development
 
 If you're using VSCode, you can get a better developer experience from integration with [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions.
@@ -70,12 +90,3 @@ npm run lint
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
-
-
-## Running application with Docker
-
-Downloading: <kbd>git clone {repository URL}</kbd>
-
-Installing NPM modules: <kbd>npm install</kbd>
-
-Running application: <kbd>docker-compose up </kbd> or <kbd>docker-compose up --build</kbd>
