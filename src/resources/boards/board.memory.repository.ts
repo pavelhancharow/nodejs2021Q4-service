@@ -1,6 +1,5 @@
 import { getRepository } from 'typeorm';
 import { Board } from './board.model';
-import taskRepo from '../tasks/task.memory.repository';
 
 /**
  * Gets the array of objects type of IBoard
@@ -62,17 +61,14 @@ const update = async (
  * @param boardId - a first term string
  * @returns Promise array of objects type of IBoard or boolean value
  */
-const remove = async (boardId: string): Promise<Board[] | boolean> => {
+const remove = async (boardId: string): Promise<boolean> => {
   const board = await getRepository(Board).findOne(boardId);
 
   if (!board) return false;
 
-  await taskRepo.deleteRelatedTasks(boardId);
   await getRepository(Board).delete(boardId);
 
-  const boards = await getRepository(Board).find();
-
-  return boards;
+  return true;
 };
 
 export = {

@@ -1,12 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BoardColumn } from '../column/column.model';
 
-interface IBoardColumn {
-  id: string;
-  title: string;
-  order: number;
-}
-
-@Entity()
+@Entity({ name: 'board' })
 export class Board {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
@@ -14,6 +9,9 @@ export class Board {
   @Column()
   title!: string;
 
-  @Column({ type: 'json', nullable: true })
-  columns!: IBoardColumn[];
+  @OneToMany(() => BoardColumn, (column) => column.boardId, {
+    eager: true,
+    cascade: true,
+  })
+  columns?: BoardColumn[];
 }
