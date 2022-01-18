@@ -1,5 +1,6 @@
-import path from 'path';
+import "reflect-metadata";
 import { createConnection } from 'typeorm';
+import path from 'path';
 import app from './app';
 import config from './common/config';
 
@@ -29,7 +30,7 @@ createConnection({
   migrationsRun: true,
   migrations: [path.join(__dirname, '/migrations/**/*.ts')]
 })
-  .then(() => {
+  .then(async () => {
     app.listen(PORT, '0.0.0.0', (err: Error | null): void => {
       if (err) throw new Error(err.message);
       process.stdout.write(
