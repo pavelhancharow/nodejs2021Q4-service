@@ -1,6 +1,6 @@
 import path from 'path';
 import pino from 'pino';
-import config from './config';
+import { config } from './config';
 
 const { LOGGER_LVL } = config;
 

@@ -1,35 +1,17 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import path from 'path';
 import app from './app';
-import config from './common/config';
+import { config } from './common/config';
+import { ormconfig } from './common/ormconfig';
 
-const {
-  PORT,
-  POSTGRES_HOST,
-  POSTGRES_PORT,
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_DB,
-} = config;
+const { PORT } = config;
 
 /**
  * Running the server
  *
  * @returns Promise type void
  */
-createConnection({
-  type: 'postgres',
-  host: POSTGRES_HOST,
-  port: +POSTGRES_PORT,
-  username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
-  database: POSTGRES_DB,
-  entities: [path.join(__dirname, '/**/*.model.ts')],
-  synchronize: true,
-  migrationsRun: true,
-  migrations: [path.join(__dirname, '/migrations/**/*.ts')]
-})
+createConnection(ormconfig)
   .then(async () => {
     app.listen(PORT, '0.0.0.0', (err: Error | null): void => {
       if (err) throw new Error(err.message);
