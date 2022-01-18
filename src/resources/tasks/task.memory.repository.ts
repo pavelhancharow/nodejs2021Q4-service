@@ -1,6 +1,5 @@
-import { Task, ITask } from './task.model';
-
-const tasks: ITask[] = [];
+import { getRepository } from 'typeorm';
+import { Task } from './task.model';
 
 /**
  * Gets the array of objects type of ITask
@@ -8,8 +7,14 @@ const tasks: ITask[] = [];
  * @param boardId - a first term string
  * @returns Promise array of objects type of ITask
  */
-const getAll = async (boardId: string): Promise<ITask[]> =>
-  tasks.filter((task) => task.boardId === boardId);
+const getAll = async (boardId: string): Promise<Task[]> => {
+  const tasks = await getRepository(Task).find({
+    where: { boardId },
+    loadRelationIds: true,
+  });
+
+  return tasks;
+};
 
 /**
  * Gets by id the object type of ITask or boolean value
@@ -21,8 +26,11 @@ const getAll = async (boardId: string): Promise<ITask[]> =>
 const getById = async (
   boardId: string,
   taskId: string
-): Promise<ITask | boolean> => {
-  const task = tasks.find((t) => t.boardId === boardId && t.id === taskId);
+): Promise<Task | boolean> => {
+  const task = await getRepository(Task).findOne(taskId, {
+    where: { boardId },
+    loadRelationIds: true,
+  });
 
   if (!task) return false;
 
@@ -36,10 +44,8 @@ const getById = async (
  * @param body - a second term type of ITask
  * @returns Promise new object type of ITask
  */
-const create = async (boardId: string, body: ITask): Promise<ITask> => {
-  const task = new Task({ ...body, boardId });
-
-  tasks.push(task);
+const create = async (boardId: string, body: Task): Promise<Task> => {
+  const task = await getRepository(Task).save({ ...body, boardId });
 
   return task;
 };
@@ -51,17 +57,15 @@ const create = async (boardId: string, body: ITask): Promise<ITask> => {
  * @param body - a second term object type of ITask
  * @returns Promise updated object type of ITask
  */
-const update = async (taskId: string, body: ITask): Promise<ITask> => {
-  let idx = NaN;
+const update = async (taskId: string, body: Task): Promise<Task | boolean> => {
+  const task = await getRepository(Task).findOne(taskId);
 
-  for (let i = 0; i < tasks.length; i++) {
-    if (tasks[i].id === taskId) {
-      idx = i;
-      tasks[i] = { ...tasks[i], ...body };
-    }
+  if (task) {
+    const updatedTask = await getRepository(Task).save({ ...body, taskId });
+    return updatedTask;
   }
 
-  return tasks[idx];
+  return false;
 };
 
 /**
@@ -70,38 +74,14 @@ const update = async (taskId: string, body: ITask): Promise<ITask> => {
  * @param taskId - a first term string
  * @returns Promise array of objects type of ITask or boolean value
  */
-const remove = async (taskId: string): Promise<ITask[] | boolean> => {
-  const idx = tasks.findIndex((t) => t.id === taskId);
+const remove = async (taskId: string): Promise<boolean> => {
+  const task = await getRepository(Task).findOne(taskId);
 
-  if (idx === -1) return false;
+  if (!task) return false;
 
-  tasks.splice(idx, 1);
+  await getRepository(Task).delete(taskId);
 
-  return tasks;
-};
-
-/**
- * Updates property in object type of ITask
- *
- * @param userId - a first term string
- */
-const unassignedTasks = async (userId: string): Promise<void> => {
-  for (let i = 0; i < tasks.length; i++) {
-    if (tasks[i].userId === userId) {
-      tasks[i] = { ...tasks[i], userId: null };
-    }
-  }
-};
-
-/**
- * Removes the object from the array of objects type of ITask
- *
- * @param boardId - a first term string
- */
-const deleteRelatedTasks = async (boardId: string): Promise<void> => {
-  for (let i = tasks.length - 1; i >= 0; i -= 1) {
-    if (tasks[i].boardId === boardId) tasks.splice(i, 1);
-  }
+  return true;
 };
 
 export = {
@@ -110,6 +90,4 @@ export = {
   create,
   update,
   remove,
-  unassignedTasks,
-  deleteRelatedTasks,
 };
