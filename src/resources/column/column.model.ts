@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Board } from '../boards/board.model';
 
 @Entity()
 export class BoardColumn {
@@ -10,4 +11,7 @@ export class BoardColumn {
 
   @Column()
   order!: number;
+
+  @ManyToOne(() => Board, (board) => board.columns)
+  boardId!: string;
 }
