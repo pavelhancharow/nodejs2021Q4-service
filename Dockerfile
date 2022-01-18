@@ -4,8 +4,8 @@ WORKDIR /usr/src/app
 
 COPY ["package*.json", "./"]
 
-RUN npm install && npm audit fix --force && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 COPY . .
 
-CMD [ "npm", "run", "start:docker" ]
+CMD [ "npm", "start"  ]

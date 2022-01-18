@@ -1,45 +1,35 @@
-import { v4 as uuid } from 'uuid';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Board } from '../boards/board.model';
+import { User } from '../users/user.model';
 
-export interface ITask {
-  id?: string;
-  title: string;
-  order: number;
-  description: string;
-  userId: string | null;
-  boardId?: string | null;
-  columnId: string | null;
-}
-
+@Entity({ name: 'task' })
 export class Task {
-  id: string;
-  title: string;
-  order: number;
-  description: string;
-  userId: string | null;
-  boardId: string | null;
-  columnId: string | null;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
-  /**
-   * Creating an instance of a class Task
-   *
-   * @param object - a first term type of ITask
-   *
-   * @returns Object type of ITask by default
-   */
-  constructor({
-    title,
-    order = 0,
-    description,
-    userId = null,
-    columnId = null,
-    boardId = null,
-  }: ITask) {
-    this.id = uuid();
-    this.title = title;
-    this.order = order;
-    this.description = description;
-    this.userId = userId;
-    this.boardId = boardId;
-    this.columnId = columnId;
-  }
+  @Column()
+  title!: string;
+
+  @Column('int')
+  order!: number;
+
+  @Column()
+  description!: string;
+
+  @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'userId' })
+  userId?: string | null;
+
+  @ManyToOne(() => Board, { nullable: true, onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'boardId' })
+  boardId?: string | null;
+
+  @Column('varchar', { nullable: true })
+  columnId!: string;
 }

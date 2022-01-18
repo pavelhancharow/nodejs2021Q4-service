@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { IUser } from './user.model';
+import { User } from './user.model';
 import usersRepo from './user.memory.repository';
 
 type CustomRequest = FastifyRequest<{
   Params: { userId: string };
-  Body: IUser;
+  Body: User;
 }>;
 
 /**
@@ -37,7 +37,7 @@ export const getById = async (
 
   if (!user) reply.code(404).send({ message: 'User not found' });
 
-  reply.code(200).send(user);
+  return reply.code(200).send(user);
 };
 
 /**
@@ -53,7 +53,7 @@ export const create = async (
 ): Promise<void> => {
   const user = await usersRepo.create(req.body);
 
-  reply.code(201).send(user);
+  return reply.code(201).send(user);
 };
 
 /**
@@ -71,7 +71,7 @@ export const update = async (
 
   if (!user) reply.code(404).send({ message: 'User not found' });
 
-  reply.code(200).send(user);
+  return reply.code(200).send(user);
 };
 
 /**
@@ -89,5 +89,5 @@ export const remove = async (
 
   if (!result) reply.code(404).send({ message: 'User not found' });
 
-  reply.code(204).send();
+  return reply.code(204).send();
 };

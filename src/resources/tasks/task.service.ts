@@ -1,10 +1,10 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { ITask } from './task.model';
+import { Task } from './task.model';
 import tasksRepo from './task.memory.repository';
 
 type CustomRequest = FastifyRequest<{
   Params: { boardId: string; taskId: string };
-  Body: ITask;
+  Body: Task;
 }>;
 
 /**

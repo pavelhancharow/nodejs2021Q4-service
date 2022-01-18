@@ -1,37 +1,17 @@
-import { v4 as uuid } from 'uuid';
-import { Column, IColumn } from '../column/column.model';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BoardColumn } from '../column/column.model';
 
-export interface IBoard {
-  id?: string;
-  title: string;
-  columns: IColumn[];
-}
-
+@Entity({ name: 'board' })
 export class Board {
-  id: string;
-  title: string;
-  columns: IColumn[];
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
-  /**
-   * Creating an instance of a class Board
-   *
-   * @param object - a first term type of IBoard
-   *
-   * @returns Object type of IBoard by default
-   */
-  constructor({ title, columns = [] }: IBoard) {
-    this.id = uuid();
-    this.title = title;
-    this.columns = Board.setColumns(columns);
-  }
+  @Column()
+  title!: string;
 
-  /**
-   * Returns the array of objects type of IColumn
-   *
-   * @param array - a first term array of objects type of IColumn
-   * @returns Array of objects type of IColumn
-   */
-  static setColumns(array: IColumn[]) {
-    return array.map((cl) => new Column(cl));
-  }
+  @OneToMany(() => BoardColumn, (column) => column.boardId, {
+    eager: true,
+    cascade: true,
+  })
+  columns?: BoardColumn[];
 }

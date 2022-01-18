@@ -1,14 +1,12 @@
-import { Board, IBoard } from './board.model';
-import taskRepo from '../tasks/task.memory.repository';
-
-const boards: IBoard[] = [];
+import { getRepository } from 'typeorm';
+import { Board } from './board.model';
 
 /**
  * Gets the array of objects type of IBoard
  *
  * @returns Promise array of objects type of IBoard
  */
-const getAll = async (): Promise<IBoard[]> => boards;
+const getAll = async (): Promise<Board[]> => getRepository(Board).find();
 
 /**
  * Gets by id the object type of IBoard or boolean value
@@ -16,8 +14,8 @@ const getAll = async (): Promise<IBoard[]> => boards;
  * @param boardId - a first term string
  * @returns Promise object type of IBoard or boolean value
  */
-const getById = async (boardId: string): Promise<IBoard | boolean> => {
-  const board = boards.find((b) => b.id === boardId);
+const getById = async (boardId: string): Promise<Board | boolean> => {
+  const board = await getRepository(Board).findOne(boardId);
 
   if (!board) return false;
 
@@ -30,10 +28,8 @@ const getById = async (boardId: string): Promise<IBoard | boolean> => {
  * @param body - a first term type of IBoard
  * @returns Promise new object type of IBoard
  */
-const create = async (body: IBoard): Promise<IBoard> => {
-  const board = new Board(body);
-
-  boards.push(board);
+const create = async (body: Board): Promise<Board> => {
+  const board = await getRepository(Board).save(body);
 
   return board;
 };
@@ -45,17 +41,18 @@ const create = async (body: IBoard): Promise<IBoard> => {
  * @param body - a second term object type of IBoard
  * @returns Promise updated object type of IBoard
  */
-const update = async (boardId: string, body: IBoard): Promise<IBoard> => {
-  let idx = NaN;
+const update = async (
+  boardId: string,
+  body: Board
+): Promise<Board | boolean> => {
+  const board = await getRepository(Board).findOne(boardId);
 
-  for (let i = 0; i < boards.length; i++) {
-    if (boards[i].id === boardId) {
-      idx = i;
-      boards[i] = { ...boards[i], ...body };
-    }
+  if (board) {
+    const updateBoard = await getRepository(Board).save({ ...board, ...body });
+    return updateBoard;
   }
 
-  return boards[idx];
+  return false;
 };
 
 /**
@@ -64,15 +61,14 @@ const update = async (boardId: string, body: IBoard): Promise<IBoard> => {
  * @param boardId - a first term string
  * @returns Promise array of objects type of IBoard or boolean value
  */
-const remove = async (boardId: string): Promise<IBoard[] | boolean> => {
-  const idx = boards.findIndex((b) => b.id === boardId);
+const remove = async (boardId: string): Promise<boolean> => {
+  const board = await getRepository(Board).findOne(boardId);
 
-  if (idx === -1) return false;
+  if (!board) return false;
 
-  await taskRepo.deleteRelatedTasks(boardId);
-  boards.splice(idx, 1);
+  await getRepository(Board).delete(boardId);
 
-  return boards;
+  return true;
 };
 
 export = {

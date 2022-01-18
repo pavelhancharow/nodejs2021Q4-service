@@ -4,8 +4,10 @@ build
 coverage
 test
 doc
+data
 .vscode
 .github
 *.json
 *.yaml
 *.md
+*.log

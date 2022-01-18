@@ -1,26 +1,26 @@
-import { v4 as uuid } from 'uuid';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Board } from '../boards/board.model';
 
-export interface IColumn {
-  id?: string;
+export interface IBoardColumn {
+  id: string;
   title: string;
   order: number;
 }
 
-export class Column {
-  id: string;
-  title: string;
-  order: number;
+@Entity({ name: 'board_column' })
+export class BoardColumn {
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
 
-  /**
-   * Creating an instance of a class Column
-   *
-   * @param object - a first term type of IColumn
-   *
-   * @returns Object type of IColumn by default
-   */
-  constructor({ title, order = 0 }: IColumn) {
-    this.id = uuid();
-    this.title = title;
-    this.order = order;
-  }
+  @Column()
+  title!: string;
+
+  @Column('int')
+  order!: number;
+
+  @ManyToOne(() => Board, (board) => board.columns, {
+    onDelete: 'CASCADE',
+    orphanedRowAction: 'delete',
+  })
+  boardId?: string;
 }
